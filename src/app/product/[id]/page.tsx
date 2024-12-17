@@ -46,10 +46,10 @@ const products: Product[] = [
     image: "/08.jpg",
     isSale: true,
   },
-  { id: 9, title: "Foldable Outdoor Chair", price: 10, image: "/09.jpg" },
+  { id: 9, title: "Folding Chair", price: 10, image: "/09.jpg" },
   {
     id: 10,
-    title: "Leather Recliner Chair",
+    title: "Leather Special Chair",
     price: 150,
     image: "/10.jpg",
     isSale: true,
@@ -60,29 +60,16 @@ const products: Product[] = [
 export default function ProductDetail({
   params,
 }: {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }) {
-  const [productId, setProductId] = useState<string | null>(null);
   const [product, setProduct] = useState<Product | null>(null);
-   console.log(productId)
+
   useEffect(() => {
-    const unwrapParams = async () => {
-      try {
-        const resolvedParams = await params;
-        setProductId(resolvedParams.id);
-
-        const foundProduct = products.find(
-          (item) => item.id === Number(resolvedParams.id)
-        );
-        setProduct(foundProduct || null);
-      } catch (error) {
-        console.error("Error fetching product:", error);
-        setProductId(null);
-      }
-    };
-
-    unwrapParams();
-  }, [params]);
+    const foundProduct = products.find(
+      (item) => item.id === Number(params.id)
+    );
+    setProduct(foundProduct || null);
+  }, [params.id]);
 
   if (!product) {
     return (
